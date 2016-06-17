@@ -152,16 +152,69 @@ public class DoubleLinkedList {
 		
 	}
 	
+	void swap ( int a, int b )
+	{   int t = a;      a = b;       b = t;   }
+	 
+	
+	public Node partition(Node wall,Node partition)
+	{
+		int x=partition.data;
+		
+		Node p=wall.prev;
+		
+		for(Node j=wall;j!=partition;j=j.next)
+		{
+			if(j.data<=x)
+			{
+				// Similar to i++ for array
+	            p = (p == null)? wall : p.next;
+	 
+	            swap(p.data, j.data);
+			}
+		}
+		
+		p = (p == null)? wall : p.next; // Similar to i++
+	    swap(p.data, partition.data);
+	    return p;
+	}
+	public void _quicksort(Node wall,Node pivot)
+	{
+		
+		if(wall!=pivot && wall!=pivot.next && wall!=null)
+		{
+			Node p=partition(wall,pivot);
+			System.out.println(wall.data+""+p.data+""+pivot.data);
+			_quicksort(wall,p.prev);
+			_quicksort(p.next,pivot);
+			
+			
+		}
+	}
+	public void quicksort()
+	{
+		Node current=head,last=null;
+		while(current!=null)
+		{
+			System.out.println(current.data);
+			last=current;
+			current=current.next;
+					
+		}
+		
+		_quicksort(head,last);
+		
+	}
 	
 	public static void main(String args[])
 	{
 		
 		DoubleLinkedList doubleLinkedList = new DoubleLinkedList();
 		
-		doubleLinkedList.push(2);
+		doubleLinkedList.push(5);
+		doubleLinkedList.push(20);
 		doubleLinkedList.push(4);
-		doubleLinkedList.push(8);
-		doubleLinkedList.push(10);
+		doubleLinkedList.push(3);
+		doubleLinkedList.push(30);
 		
 		
 		doubleLinkedList.printList();
@@ -170,6 +223,9 @@ public class DoubleLinkedList {
 		//doubleLinkedList.deleteNode(doubleLinkedList.head.next);  /*delete middle node*/
 		//doubleLinkedList.deleteNode(doubleLinkedList.head.next); 
 		doubleLinkedList.reverse();
+		doubleLinkedList.printList();
+		
+		doubleLinkedList.quicksort();
 		doubleLinkedList.printList();
 	}
 
