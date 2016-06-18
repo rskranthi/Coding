@@ -1,7 +1,5 @@
 package linkedlist;
 
-import javax.sound.sampled.ReverbType;
-
 public class DoubleLinkedList {
 	Node head;
 	
@@ -152,41 +150,60 @@ public class DoubleLinkedList {
 		
 	}
 	
-	void swap ( int a, int b )
-	{   int t = a;      a = b;       b = t;   }
+	void swap ( Node a, Node b )
+	{  
+		Node t=new Node(0);
+		//System.out.println("Before"+"a="+a.data+"b="+b.data);
+		t.data = a.data;      a.data = b.data;       b.data = t.data; 
+		//System.out.println("a="+a.data+"b="+b.data);
+		}
 	 
 	
 	public Node partition(Node wall,Node partition)
 	{
 		int x=partition.data;
 		
+if(wall==null)return partition;
+if(partition==null)return wall;
+		
 		Node p=wall.prev;
+		
+		
+		
 		
 		for(Node j=wall;j!=partition;j=j.next)
 		{
 			if(j.data<=x)
 			{
 				// Similar to i++ for array
-	            p = (p == null)? wall : p.next;
-	 
-	            swap(p.data, j.data);
+	            p =  (p==null)? wall : p.next;
+	            
+	            swap(p, j);
 			}
+			
 		}
 		
-		p = (p == null)? wall : p.next; // Similar to i++
-	    swap(p.data, partition.data);
+		p =  (p==null)? wall : p.next; // Similar to i++
+		//System.out.println("Before p"+p.data);
+	    swap(p, partition);
+	    //System.out.println("After p"+p.data);
+	    
+	    
 	    return p;
 	}
 	public void _quicksort(Node wall,Node pivot)
 	{
 		
-		if(wall!=pivot && wall!=pivot.next && wall!=null)
+		if(wall!=null && pivot!=null && wall!=pivot.next && wall!=pivot)
 		{
+			
 			Node p=partition(wall,pivot);
 			System.out.println(wall.data+""+p.data+""+pivot.data);
+			
+			if(wall!=null && pivot!=null){
 			_quicksort(wall,p.prev);
 			_quicksort(p.next,pivot);
-			
+			}
 			
 		}
 	}
@@ -205,6 +222,7 @@ public class DoubleLinkedList {
 		
 	}
 	
+	
 	public static void main(String args[])
 	{
 		
@@ -219,13 +237,18 @@ public class DoubleLinkedList {
 		
 		doubleLinkedList.printList();
 		
-		//doubleLinkedList.deleteNode(doubleLinkedList.head);  /*delete first node*/
-		//doubleLinkedList.deleteNode(doubleLinkedList.head.next);  /*delete middle node*/
-		//doubleLinkedList.deleteNode(doubleLinkedList.head.next); 
+		doubleLinkedList.deleteNode(doubleLinkedList.head);  /*delete first node*/
+		doubleLinkedList.deleteNode(doubleLinkedList.head.next);  /*delete middle node*/
+		doubleLinkedList.deleteNode(doubleLinkedList.head.next); 
 		doubleLinkedList.reverse();
 		doubleLinkedList.printList();
-		
+		doubleLinkedList.push(5);
+		doubleLinkedList.push(20);
+		doubleLinkedList.push(4);
+		doubleLinkedList.push(3);
+		doubleLinkedList.push(30);
 		doubleLinkedList.quicksort();
+		System.out.println("After sort");
 		doubleLinkedList.printList();
 	}
 
