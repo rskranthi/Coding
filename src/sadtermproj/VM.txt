@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="vendSys" nsURI="http://www.example.org/vendSys" nsPrefix="vendSys">
+  <eClassifiers xsi:type="ecore:EClass" name="IProductInfo" abstract="true" interface="true">
+    <eOperations name="getDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eOperations name="getName" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eOperations name="getID" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+    <eOperations name="getIcon" eType="ecore:EDataType vendMachineEMF.ecore#//Icon"/>
+    <eOperations name="getQuantity" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+    <eOperations name="getPrice" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IOutputDisplayListener" abstract="true"
+      interface="true">
+    <eOperations name="updateDisplay">
+      <eParameters name="sData" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IPayMachineListener" abstract="true"
+      interface="true">
+    <eOperations name="balanceUpdated">
+      <eParameters name="dBalance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="returnChange">
+      <eParameters name="iNumQuarters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="iNumDimes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="iNumNickels" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IProductDatabase" abstract="true" interface="true">
+    <eOperations name="decrementQuantity">
+      <eParameters name="piProduct" eType="#//IProductInfo"/>
+    </eOperations>
+    <eOperations name="getProducts" upperBound="10" eType="#//IProductInfo"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IProductDispenserListener" abstract="true"
+      interface="true">
+    <eOperations name="dispenseProduct">
+      <eParameters name="piProduct" eType="#//IProductInfo"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CashRegister">
+    <eOperations name="addDimes">
+      <eParameters name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="addDollars">
+      <eParameters name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="addNickels">
+      <eParameters name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="addQuarters">
+      <eParameters name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="maximumChange" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"/>
+    <eOperations name="takeOutChange" unique="false" eType="#//CoinCount">
+      <eParameters name="dAmount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="addReceipt">
+      <eParameters name="receipt" eType="#//SuncardReceipt"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iNumDimes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iNumQuarters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iNumNickels" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iNumDollars" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coincount" upperBound="-1"
+        eType="#//CoinCount" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_alReceipts" upperBound="10"
+        eType="#//SuncardReceipt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputDisplay">
+    <eOperations name="displayString">
+      <eParameters name="sData" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_sCurrentOutput" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_odlListener" eType="#//IOutputDisplayListener"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PayMachine">
+    <eOperations name="clearBalance"/>
+    <eOperations name="deductBalance">
+      <eParameters name="dAmount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="insertDime"/>
+    <eOperations name="insertQuarter"/>
+    <eOperations name="insertDollar" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
+    <eOperations name="insertNickel"/>
+    <eOperations name="insertSuncard">
+      <eParameters name="iAccount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="returnChange"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_bOutOfOrder" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_dBalance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_dMaximumBalance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_pmlListener" eType="#//IPayMachineListener"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_vvmOwner" eType="#//VirtualVendingMachine"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_crRegister" eType="#//CashRegister"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductSelector">
+    <eOperations name="buyItem"/>
+    <eOperations name="displayProducts"/>
+    <eOperations name="showProductDesc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_piSelectedItem" eType="#//IProductInfo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_vvmMachine" eType="#//VirtualVendingMachine"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_pslListener" eType="#//IProductSelectorListener"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SuncardReceipt">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_dAmountDeducted" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iAccount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VirtualVendingMachine">
+    <eOperations name="goOutOfOrder"/>
+    <eOperations name="showProductDesc">
+      <eParameters name="piProduct" eType="#//IProductInfo"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_bOutOfOrder" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_pdProducts" eType="#//IProductDatabase"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_pmPayMachine" eType="#//PayMachine"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_psProductSelector" eType="#//ProductSelector"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_odOutputDisplay" eType="#//OutputDisplay"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_pdDispenser" eType="#//ProductDispenser"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductDispenser">
+    <eOperations name="dispenseProduct">
+      <eParameters name="piProduct" eType="#//IProductInfo"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_pdlListener" eType="#//IProductDispenserListener"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CoinCount">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NUM_DIMES" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NUM_NICKELS" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NUM_QUARTERS" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IProductSelectorListener" abstract="true"
+      interface="true">
+    <eOperations name="itemDeselected">
+      <eParameters name="piProduct" eType="#//IProductInfo"/>
+    </eOperations>
+    <eOperations name="itemSelected">
+      <eParameters name="piProduct" eType="#//IProductInfo"/>
+    </eOperations>
+    <eOperations name="updateDisplay">
+      <eParameters name="piProduct" eType="#//IProductInfo"/>
+    </eOperations>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="vendMachineEMF" nsURI="http://www.example.org/vendMachineEMF"
+    nsPrefix="vendMachineEMF">
+  <eClassifiers xsi:type="ecore:EClass" name="MyProductDatabase">
+    <eOperations name="decrementQuantity">
+      <eParameters name="piProduct" eType="ecore:EClass vendSys.ecore#//IProductInfo"/>
+    </eOperations>
+    <eOperations name="getProduct" eType="ecore:EClass vendSys.ecore#//IProductInfo">
+      <eParameters name="iProductID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="getNumProducts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pProducts" upperBound="-1"
+        eType="#//Product" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Product" eSuperTypes="vendSys.ecore#//IProductInfo">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_dPrice" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iICon" eType="#//Icon"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iQuantity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_sDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_sName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Icon" instanceClassName="javax.swing.Icon"/>
+</ecore:EPackage>
